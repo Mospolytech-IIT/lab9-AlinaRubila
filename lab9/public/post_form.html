@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New post</title>
+</head>
+<body>
+<div id="message"></div>
+     <p>
+        Title: <br />
+        <input id="post_title" />
+    </p>
+    <p>
+        Text: <br />
+        <input id="post_text" />
+    </p>
+    <button onclick="create()">Create</button>
+<script>
+    async function create(){
+
+        const post_title = document.getElementById("post_title").value;
+        const post_text = document.getElementById("post_text").value;
+        const response = await fetch("/posting", {
+                method: "POST",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    title: post_title,
+                    content: post_text,
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);
+    }
+</script>
+</body>
+</html>
