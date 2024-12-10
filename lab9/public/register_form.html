@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div id="message"></div>
+     <p>
+        Enter your name: <br />
+        <input name="username" id="username" />
+    </p>
+    <p>
+        Enter your e-mail: <br />
+        <input name="email" id="email" />
+    </p>
+    <p>
+        Enter your password: <br />
+        <input type="password" id="password" name="password" />
+    </p>
+    <button onclick="send()">Send</button>
+<script>
+    async function send(){
+
+        const name = document.getElementById("username").value;
+        const user_password = document.getElementById("password").value;
+        const user_email = document.getElementById("email").value;
+        const response = await fetch("/register", {
+                method: "PUT",
+                headers: { "Accept": "application/json", "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    username: name,
+                    email: user_email,
+                    password: user_password
+                })
+            });
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("message").textContent = data.message;
+            }
+            else
+                console.log(response);}
+</script>
+</body>
+</html>
